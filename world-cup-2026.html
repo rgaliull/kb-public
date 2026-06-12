@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Чемпионат мира по футболу 2026 — Турнирная таблица</title>
+<style>
+  @page {
+    size: A4 landscape;
+    margin: 8mm 6mm;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #1a1a1a;
+    background: #f5f5f5;
+  }
+  
+  .page {
+    width: 297mm;
+    height: 210mm;
+    background: white;
+    margin: 0 auto 10mm;
+    padding: 8mm 6mm;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  
+  .page:last-child {
+    page-break-after: auto;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 4mm;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 3mm;
+  }
+  
+  .header h1 {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 1mm;
+  }
+  
+  .header .subtitle {
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .groups-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 4mm;
+    flex: 1;
+  }
+  
+  .group-card {
+    border: 1.5px solid #ddd;
+    border-radius: 2px;
+    padding: 2.5mm;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .group-label {
+    font-size: 13px;
+    font-weight: 900;
+    text-align: center;
+    padding: 1.5mm;
+    background: #1a1a1a;
+    color: white;
+    border-radius: 2px;
+    margin-bottom: 2mm;
+    letter-spacing: 0.5px;
+  }
+  
+  .group-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .group-table th {
+    font-size: 8px;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 700;
+    border-bottom: 1px solid #ccc;
+    padding: 1mm 0.5mm;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  
+  .group-table th.team-col {
+    text-align: left;
+    width: auto;
+  }
+  
+  .group-table td {
+    padding: 1.5mm 0.5mm;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 10px;
+  }
+  
+  .group-table td.team-name {
+    text-align: left;
+    font-weight: 600;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  
+  .group-table tr.pos-1 { background: #e8f5e9; }
+  .group-table tr.pos-2 { background: #e8f5e9; }
+  .group-table tr.pos-1 td, .group-table tr.pos-2 td { font-weight: 700; }
+  
+  .flag {
+    font-size: 16px;
+    margin-right: 2px;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  
+  .empty-cell {
+    color: #ccc;
+    font-style: italic;
+    font-size: 9px;
+  }
+  
+  /* === PLAYOFF PAGE === */
+  .bracket-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 1mm;
+  }
+  
+  .bracket-title {
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2mm;
+  }
+  
+  .bracket-rounds {
+    display: flex;
+    gap: 3mm;
+    flex: 1;
+    justify-content: space-between;
+  }
+  
+  .round-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .round-label {
+    font-size: 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 1mm;
+    background: #f0f0f0;
+    padding: 1mm;
+    border-radius: 2px;
+  }
+  
+  .match-slot {
+    border: 1px solid #ddd;
+    padding: 0.8mm 1.5mm;
+    font-size: 7.5px;
+    min-height: 4.5mm;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .match-slot.final {
+    font-size: 10px;
+    font-weight: 900;
+    background: #fffde7;
+    border: 2px solid #ffc107;
+    min-height: 8mm;
+  }
+  
+  .match-slot.third {
+    background: #f5f5f5;
+    font-size: 9px;
+  }
+  
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-size: 8px;
+    height: 3mm;
+  }
+
+  .match-num {
+    font-size: 7px;
+    color: #999;
+    min-width: 14px;
+    text-align: right;
+    margin-right: 2px;
+  }
+
+  @media print {
+    body {
+      background: white;
+    }
+    .page {
+      box-shadow: none;
+      margin: 0;
+      width: auto;
+      height: auto;
+    }
+    .no-print { display: none; }
+  }
+  
+  .no-print {
+    text-align: center;
+    padding: 10mm;
+  }
+  
+  .no-print button {
+    padding: 12px 32px;
+    font-size: 16px;
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .no-print button:hover {
+    background: #333;
+  }
+
+  .notes {
+    font-size: 8px;
+    color: #888;
+    text-align: center;
+    margin-top: 2mm;
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print" style="margin-bottom:10mm">
+  <button onclick="window.print()">🖨️ Напечатать</button>
+  <p style="color:#888;margin-top:5px">Альбомная ориентация А4 • Масштаб 100% • Без полей</p>
+</div>
+
+<!-- ===== PAGE 1: Groups A–D ===== -->
+<div class="page">
+  <div class="header">
+    <h1>⚽ FIFA World Cup 2026</h1>
+    <div class="subtitle">11 июня – 19 июля • США · Канада · Мексика</div>
+  </div>
+  <div class="groups-grid" id="groups-a-d"></div>
+</div>
+
+<!-- ===== PAGE 2: Groups E–H ===== -->
+<div class="page">
+  <div class="header">
+    <h1>⚽ FIFA World Cup 2026</h1>
+    <div class="subtitle">Групповой этап — Группы E–H</div>
+  </div>
+  <div class="groups-grid" id="groups-e-h"></div>
+</div>
+
+<!-- ===== PAGE 3: Groups I–L ===== -->
+<div class="page">
+  <div class="header">
+    <h1>⚽ FIFA World Cup 2026</h1>
+    <div class="subtitle">Групповой этап — Группы I–L</div>
+  </div>
+  <div class="groups-grid" id="groups-i-l"></div>
+</div>
+
+<!-- ===== PAGE 4: Playoff Bracket ===== -->
+<div class="page">
+  <div class="header">
+    <h1>⚽ FIFA World Cup 2026</h1>
+    <div class="subtitle">Плей-офф — от 1/16 финала до финала</div>
+  </div>
+  <div class="bracket-container" id="bracket"></div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const GROUPS = {
+  A: { teams: ['Mexico', 'South Korea', 'Czech Republic', 'South Africa'], flags: ['🇲🇽', '🇰🇷', '🇨🇿', '🇿🇦'] },
+  B: { teams: ['Canada', 'Bosnia & Herz.', 'Qatar', 'Switzerland'], flags: ['🇨🇦', '🇧🇦', '🇶🇦', '🇨🇭'] },
+  C: { teams: ['Brazil', 'Morocco', 'Haiti', 'Scotland'], flags: ['🇧🇷', '🇲🇦', '🇭🇹', '🏴󠁧󠁢󠁳󠁣󠁴󠁿'] },
+  D: { teams: ['United States', 'Paraguay', 'Australia', 'Turkey'], flags: ['🇺🇸', '🇵🇾', '🇦🇺', '🇹🇷'] },
+  E: { teams: ['Germany', 'Curaçao', 'Ivory Coast', 'Ecuador'], flags: ['🇩🇪', '🇨🇼', '🇨🇮', '🇪🇨'] },
+  F: { teams: ['Netherlands', 'Japan', 'Sweden', 'Tunisia'], flags: ['🇳🇱', '🇯🇵', '🇸🇪', '🇹🇳'] },
+  G: { teams: ['Belgium', 'Egypt', 'Iran', 'New Zealand'], flags: ['🇧🇪', '🇪🇬', '🇮🇷', '🇳🇿'] },
+  H: { teams: ['Spain', 'Cape Verde', 'Saudi Arabia', 'Uruguay'], flags: ['🇪🇸', '🇨🇻', '🇸🇦', '🇺🇾'] },
+  I: { teams: ['France', 'Senegal', 'Iraq', 'Norway'], flags: ['🇫🇷', '🇸🇳', '🇮🇶', '🇳🇴'] },
+  J: { teams: ['Argentina', 'Algeria', 'Austria', 'Jordan'], flags: ['🇦🇷', '🇩🇿', '🇦🇹', '🇯🇴'] },
+  K: { teams: ['Portugal', 'DR Congo', 'Uzbekistan', 'Colombia'], flags: ['🇵🇹', '🇨🇩', '🇺🇿', '🇨🇴'] },
+  L: { teams: ['England', 'Croatia', 'Ghana', 'Panama'], flags: ['🏴󠁧󠁢󠁥󠁮󠁧󠁿', '🇭🇷', '🇬🇭', '🇵🇦'] }
+};
+
+// ─── RENDER GROUP TABLE ─────────────────────────────────
+function renderGroupCard(letter, data) {
+  let html = `<div class="group-card">`;
+  html += `<div class="group-label">ГРУППА ${letter}</div>`;
+  html += `<table class="group-table">`;
+  html += `<tr><th class="team-col">Команда</th><th>И</th><th>В</th><th>Н</th><th>П</th><th>М</th><th>±</th><th>О</th></tr>`;
+  
+  data.teams.forEach((team, i) => {
+    let posClass = i < 2 ? `pos-${i+1}` : '';
+    html += `<tr class="${posClass}">`;
+    html += `<td class="team-name"><span class="flag">${data.flags[i]}</span>${team}</td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `<td class="empty-cell"> </td>`;
+    html += `</tr>`;
+  });
+  
+  html += `</table></div>`;
+  return html;
+}
+
+// ─── POPULATE GROUP PAGES ────────────────────────────────
+document.getElementById('groups-a-d').innerHTML = 
+  ['A','B','C','D'].map(l => renderGroupCard(l, GROUPS[l])).join('');
+document.getElementById('groups-e-h').innerHTML = 
+  ['E','F','G','H'].map(l => renderGroupCard(l, GROUPS[l])).join('');
+document.getElementById('groups-i-l').innerHTML = 
+  ['I','J','K','L'].map(l => renderGroupCard(l, GROUPS[l])).join('');
+
+// ─── RENDER PLAYOFF BRACKET ──────────────────────────────
+function renderBracket() {
+  const rounds = [
+    { label: '1/16 финала', matches: 16, id: 'r16' },
+    { label: '1/8 финала', matches: 8, id: 'r8' },
+    { label: '1/4 финала', matches: 4, id: 'qf' },
+    { label: '1/2 финала', matches: 2, id: 'sf' },
+    { label: 'Финал', matches: 1, id: 'final', special: true },
+  ];
+
+  let html = '<div class="bracket-rounds">';
+  
+  rounds.forEach((round, ri) => {
+    html += '<div class="round-column">';
+    html += `<div class="round-label">${round.label}</div>`;
+    
+    for (let i = 0; i < round.matches; i++) {
+      let cls = 'match-slot';
+      if (round.id === 'final') cls += ' final';
+      // Add spacing for alignment
+      if (ri === 0 && round.matches === 16) {
+        html += `<div class="match-slot"><span class="match-num">M${73+i}</span> 1<sup>st</sup> ___ vs 3<sup>rd</sup> ___</div>`;
+      } else if (ri === 1 && round.matches === 8) {
+        html += `<div class="match-slot"><span class="match-num">M${89+i}</span> ___ vs ___</div>`;
+      } else if (ri === 2 && round.matches === 4) {
+        html += `<div class="match-slot"><span class="match-num">M${97+i}</span> ___ vs ___</div>`;
+      } else if (ri === 3 && round.matches === 2) {
+        html += `<div class="match-slot"><span class="match-num">M${101+i}</span> ___ vs ___</div>`;
+      } else if (ri === 4) {
+        html += '<div class="match-slot final">🏆 Финал · 19 июля</div>';
+        html += '<div class="match-slot third">🥉 За 3-е место · 18 июля</div>';
+      }
+    }
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  html += '<div class="notes">* В 1/16 выходят: 12 победителей групп + 12 вторых мест + 8 лучших третьих мест</div>';
+  return html;
+}
+
+document.getElementById('bracket').innerHTML = renderBracket();
+</script>
+
+</body>
+</html>
